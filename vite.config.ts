@@ -4,6 +4,7 @@ import Components from 'unplugin-vue-components/vite';
 import { VantResolver } from 'unplugin-vue-components/resolvers';
 import postCssPxToRem from "postcss-pxtorem"
 import WindiCSS from 'vite-plugin-windicss'
+import { viteMockServe } from 'vite-plugin-mock'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -12,10 +13,27 @@ export default defineConfig({
     WindiCSS(),
     Components({
       resolvers: [VantResolver()],
-    }),],
+    }),
+    // mock服务
+    viteMockServe({
+      supportTs: false,
+      logger: false,
+      mockPath: "./src/mock/",
+    }),
+  ],
   resolve: {
     alias: {
       '@': '/src/'
+    }
+  },
+  // 设置跨域  vue3配置跨域--------
+  server: {
+    proxy: {
+      '/api': { // 需要注意的是这里的 /api 要与utils文件下面的axios.js文件的基础路径保持一致
+        target: "http://localhost:5173", // 后端地址
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
     }
   },
   css: {
