@@ -1,7 +1,9 @@
-import { createPinia } from 'pinia'
-import modules from "./content"
+import useCounterStore from './modules/counter'
+import useCommonStore from './modules/common'
 
-const pinia = createPinia()
-pinia.use(modules)
+const useStore = () => ({
+    counter: useCounterStore(),
+    common: useCommonStore(),
+})
 
-export default pinia
+export default useStore

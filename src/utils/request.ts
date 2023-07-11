@@ -1,10 +1,28 @@
-import axios from 'axios'
+import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
+import NProgress from 'nprogress'
 import { showMessage } from "./status";   // 引入状态码文件
 import { showFailToast } from 'vant';
-// import config from '..config';
+// import config from '..config/index';
+
+interface ResType<T> {
+    code: number
+    data?: T
+    msg: string
+    err?: string
+}
+
+interface Http {
+    get<T>(url: string, params?: unknown): Promise<ResType<T>>
+
+    post<T>(url: string, params?: unknown): Promise<ResType<T>>
+
+    upload<T>(url: string, params: unknown): Promise<ResType<T>>
+
+    download(url: string): void
+}
 
 // axios对象
-const service = axios.create({
+const service: AxiosInstance = axios.create({
     // axios请求基础URL
     // 由于本项目使用mock + vite-plugin-mock启动的mock服务，默认使用的端口号与页面一致
     baseURL: "/api",
@@ -12,17 +30,22 @@ const service = axios.create({
     withCredentials: true, // 异步请求携带cookie
     headers: {
         'Content-Type': 'application/json;charset=UTF-8',
-        'token': '80c483d59ca86ad0393cf8a98416e2a1'
     }
 })
 
+
 // 添加请求拦截器
 service.interceptors.request.use(
-    config => {
+    (config: InternalAxiosRequestConfig) => {
+        const token = window.sessionStorage.getItem('token')
+        if (token) {
+            // @ts-ignore
+            config.headers.token = token
+        }
         // 在发送请求之前做些什么
         return config
     },
-    error => {
+    (error: any) => {
         // 对请求错误做些什么
         console.log(error)
         return Promise.reject(error)
@@ -31,7 +54,7 @@ service.interceptors.request.use(
 
 //http response 拦截器
 service.interceptors.response.use(
-    response => {
+    (response: AxiosResponse) => {
         // 2xx 范围内的状态码都会触发该函数。
         // 对响应数据做点什么
         // dataAxios 是 axios 返回数据中的 data
@@ -39,9 +62,9 @@ service.interceptors.response.use(
         // 这个状态码是和后端约定的
         // const code = dataAxios.reset
         // return dataAxios
-        return response;
+        return response
     },
-    error => {
+    (error: any) => {
         const { response } = error;
         if (response) {
             switch (response.status) {
@@ -73,36 +96,63 @@ service.interceptors.response.use(
     }
 );
 
-// 封装 post 请求
-let post = function (url = "", data_ = {}) {
-    return new Promise((resolve, reject) => {
-        service.post(url, data_).then((res) => {
-            // 成功
-            return resolve(res)
-        }).catch((err) => {
-            // 失败
-            return reject(err)
+const http: Http = {
+    get(url, params) {
+        return new Promise((resolve, reject) => {
+            NProgress.start()
+            service
+                .get(url, { params })
+                .then((res) => {
+                    NProgress.done()
+                    resolve(res.data)
+                })
+                .catch((err) => {                    
+                    NProgress.done()
+                    reject(err.data)
+                })
         })
-    })
+    },
+    post(url, params) {
+        return new Promise((resolve, reject) => {
+            NProgress.start()
+            service
+                .post(url, JSON.stringify(params))
+                .then((res) => {
+                    NProgress.done()
+                    resolve(res.data)
+                })
+                .catch((err) => {
+                    NProgress.done()
+                    reject(err.data)
+                })
+        })
+    },
+    upload(url, file) {
+        return new Promise((resolve, reject) => {
+            NProgress.start()
+            service
+                .post(url, file, {
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                })
+                .then((res) => {
+                    NProgress.done()
+                    resolve(res.data)
+                })
+                .catch((err) => {
+                    NProgress.done()
+                    reject(err.data)
+                })
+        })
+    },
+    download(url) {
+        const iframe = document.createElement('iframe')
+        iframe.style.display = 'none'
+        iframe.src = url
+        iframe.onload = function () {
+            document.body.removeChild(iframe)
+        }
+        document.body.appendChild(iframe)
+    },
 }
 
-// 封装 get 请求
-let get = function (url = "", data_ = {}) {
-    return new Promise((resolve, reject) => {
-        let params = data_;
-        service.get(url, {
-            params
-        }).then((res) => {
-            // 成功
-            return resolve(res)
-        }).catch((err) => {
-            // 失败
-            return reject(err)
-        })
-    })
-}
-
-export default {
-    post,
-    get,
-}
+export default http

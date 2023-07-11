@@ -8,7 +8,7 @@ let modules = import.meta.glob("@/views/*.vue")
 第二个参数就是一个对象，里面有三个模块需要处理，第一个是 state，
 第二个是 getters，第三个是 actions。
 */
-export const useCommon = defineStore('myCommon', {
+const useCommonStore = defineStore('common', {
     state: () => {
         return {
             // 路由表
@@ -22,7 +22,7 @@ export const useCommon = defineStore('myCommon', {
 
     actions: {
         // 添加动态路由，并同步到状态管理器中
-        addRoutes(data: Array<any>, router: any) {            
+        addRoutes(data: Array<any>, router: any) {
             data.forEach(m => {
                 this.routes.push({
                     path: m.path,
@@ -37,3 +37,5 @@ export const useCommon = defineStore('myCommon', {
         },
     }
 })
+
+export default useCommonStore

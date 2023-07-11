@@ -10,9 +10,12 @@
     "lint": "eslint src --ext .ts,.tsx,.vue"
   },
   "dependencies": {
+    "@types/nprogress": "^0.2.0",
     "amfe-flexible": "^2.2.1",
     "axios": "^1.4.0",
+    "nprogress": "^0.2.0",
     "pinia": "^2.1.4",
+    "pinia-plugin-persistedstate": "^3.1.0",
     "vant": "^4.6.1",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4"

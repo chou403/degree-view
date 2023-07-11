@@ -15,17 +15,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-const username = ref('');
-const password = ref('');
+import { ref } from 'vue'
+const username = ref('')
+const password = ref('')
 const onSubmit = (values:any) => {
-    console.log('submit', values);
+    console.log('submit', values)
 };
 
 </script>
 
 <style scoped>
 .login_module {
-    @apply bg-light-50 flex items-center justify-center flex-col;
+    @apply bg-light-50 flex items-center justify-center flex-col
 }
 </style>

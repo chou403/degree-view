@@ -1,5 +1,9 @@
 import { createRouter, createWebHistory, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import routes from "./content"
+import homeRoutes from './modules/home'
+
+const routes: Array<RouteRecordRaw> = [
+  ...homeRoutes
+]
 
 const router = createRouter({
   history: createWebHistory(),    // 使用history模式

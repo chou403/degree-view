@@ -1,10 +1,10 @@
 // http 自动化
 const files = import.meta.glob('./modules/*.ts')
-let apis: any = []
+const api: any = {}
 for (const key in files) {
     files[key]().then((res: any) => {
-        apis[key.replace(/(\.\/module\/|\.ts)/g, '')] = res.default
+        api[key.replace(/(\.\/modules\/|\.ts)/g, '')] = res.default
     })
 }
 
-export default apis;
+export default api;
