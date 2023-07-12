@@ -1,4 +1,4 @@
-import http from '@/utils/request'
+import { http } from '@/utils/request'
 
 export default {
     testApi(params: any) {
@@ -8,4 +8,3 @@ export default {
         return http.get('/routes', params)
     }
 }
-

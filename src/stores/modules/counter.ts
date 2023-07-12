@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-const useCounterStore = defineStore('counter', () => {
+export const useCounterStore = defineStore('counter', () => {
     const counter = ref(0)
 
     const increment = () => {
@@ -13,5 +13,3 @@ const useCounterStore = defineStore('counter', () => {
         increment
     }
 })
-
-export default useCounterStore

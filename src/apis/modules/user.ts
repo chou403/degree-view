@@ -1,7 +1,7 @@
-import http from '@/utils/request'
+import { http } from '@/utils/request'
 
 export default {
-    getUser(params: any) {        
+    getUser(params: any) {
         return http.get('/getUser', params)
     },
     getPerson(params: any) {

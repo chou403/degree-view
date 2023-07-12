@@ -96,7 +96,7 @@ service.interceptors.response.use(
     }
 );
 
-const http: Http = {
+export const http: Http = {
     get(url, params) {
         return new Promise((resolve, reject) => {
             NProgress.start()
@@ -155,4 +155,4 @@ const http: Http = {
     },
 }
 
-export default http
+// export default http

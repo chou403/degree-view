@@ -28,7 +28,7 @@ export default defineConfig({
   },
   // 设置跨域  vue3配置跨域--------
   server: {
-    https: true,
+    // https: true,
     proxy: {
       '/api': { // 需要注意的是这里的 /api 要与utils文件下面的axios.js文件的基础路径保持一致
         target: "http://localhost:5173", // 后端地址

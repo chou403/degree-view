@@ -8,7 +8,7 @@ let modules = import.meta.glob("@/views/*.vue")
 第二个参数就是一个对象，里面有三个模块需要处理，第一个是 state，
 第二个是 getters，第三个是 actions。
 */
-const useCommonStore = defineStore('common', {
+export const useCommonStore = defineStore('common', {
     state: () => {
         return {
             // 路由表
@@ -37,5 +37,3 @@ const useCommonStore = defineStore('common', {
         },
     }
 })
-
-export default useCommonStore
