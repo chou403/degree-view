@@ -9,6 +9,7 @@ module.exports = {
       '@vue/typescript/recommended',
       '@vue/prettier',
       '@vue/prettier/@typescript-eslint',
+      './.eslintrc-auto-import.json'
     ],
     parserOptions: {
       ecmaVersion: 2020,

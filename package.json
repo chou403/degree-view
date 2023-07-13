@@ -31,6 +31,7 @@
     "postcss": "^8.4.25",
     "postcss-pxtorem": "^6.0.0",
     "typescript": "^5.0.2",
+    "unplugin-auto-import": "^0.16.6",
     "unplugin-vue-components": "^0.25.1",
     "vite": "^4.4.0",
     "vite-plugin-mock": "^2.9.6",

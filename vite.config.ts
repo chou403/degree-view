@@ -5,6 +5,7 @@ import { VantResolver } from 'unplugin-vue-components/resolvers';
 import postCssPxToRem from 'postcss-pxtorem'
 import WindiCSS from 'vite-plugin-windicss'
 import { viteMockServe } from 'vite-plugin-mock'
+import AutoImport from 'unplugin-auto-import/vite'
 
 export default defineConfig({
   base: './', // 这里更改打包相对绝对路径
@@ -19,6 +20,53 @@ export default defineConfig({
       supportTs: false,
       logger: false,
       mockPath: "./src/mock/",
+    }),
+    AutoImport({
+      // 目标文件
+      include: [
+        /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
+        /\.vue$/, /\.vue\?vue/, // .vue
+        /\.md$/, // .md
+      ],
+      // 全局引入插件
+      imports: [
+        "vue",
+        "vue-router",
+        {
+          '@vueuse/core': [
+            // named imports
+            'useMouse', // import { useMouse } from '@vueuse/core',
+            // alias
+            ['useFetch', 'useMyFetch'], // import { useFetch as useMyFetch } from '@vueuse/core',
+          ],
+          'axios': [
+            // default imports
+            ['default', 'axios'], // import { default as axios } from 'axios',
+          ],
+          '[package-name]': [
+            '[import-names]',
+            // alias
+            ['[from]', '[alias]'],
+          ],
+        },
+        {
+          from: 'vue-router',
+          imports: ['RouteLocationRaw'],
+          type: true,
+        },
+      ],
+      // eslint报错解决
+      eslintrc: {
+        enabled: false, // Default `false`
+        filepath: './.eslintrc-auto-import.json', // Default `./.eslintrc-auto-import.json`
+        globalsPropValue: true, // Default `true`, (true | false | 'readonly' | 'readable' | 'writable' | 'writeable')
+      },
+      // 解析器
+      resolvers: [
+        /* ... */
+      ],
+      // 声明文件生成位置和文件名称 路径下自动生成文件夹存放全局指令
+      dts: './auto-import.d.ts'
     }),
   ],
   resolve: {
