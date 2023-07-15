@@ -5,9 +5,10 @@ import { showFailToast } from 'vant';
 // import config from '..config/index';
 
 interface ResType<T> {
+    flag: boolean
     code: number
     data?: T
-    msg: string
+    message: string
     err?: string
 }
 
@@ -25,7 +26,7 @@ interface Http {
 const service: AxiosInstance = axios.create({
     // axios请求基础URL
     // 由于本项目使用mock + vite-plugin-mock启动的mock服务，默认使用的端口号与页面一致
-    baseURL: "/api",
+    baseURL: "/degree",
     timeout: 5000,
     withCredentials: true, // 异步请求携带cookie
     headers: {

@@ -8,7 +8,7 @@ export const homeRoutes: Array<RouteRecordRaw> = [
     {
         // 路由重定向配置
         path: '/',
-        redirect: '/home'
+        redirect: '/login'
     }, {
         path: '/home',
         component: Home

@@ -7,12 +7,15 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    Account: typeof import('./src/components/login/account.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    QrCode: typeof import('./src/components/login/qrCode.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     VanButton: typeof import('vant/es')['Button']
     VanCellGroup: typeof import('vant/es')['CellGroup']
     VanField: typeof import('vant/es')['Field']
     VanForm: typeof import('vant/es')['Form']
+    VanImage: typeof import('vant/es')['Image']
   }
 }
