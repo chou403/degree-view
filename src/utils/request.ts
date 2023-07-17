@@ -17,7 +17,7 @@ interface Http {
 
     post<T>(url: string, params?: unknown): Promise<ResType<T>>
 
-    upload<T>(url: string, params: unknown): Promise<ResType<T>>
+    upload(url: string, params?: unknown): Promise<string>
 
     download(url: string): void
 }
@@ -29,6 +29,7 @@ const service: AxiosInstance = axios.create({
     baseURL: "/degree",
     timeout: 5000,
     withCredentials: true, // 异步请求携带cookie
+    // responseType: "blob",
     headers: {
         'Content-Type': 'application/json;charset=UTF-8',
     }
@@ -133,6 +134,7 @@ export const http: Http = {
             NProgress.start()
             service
                 .post(url, file, {
+                    responseType: 'blob',
                     headers: { 'Content-Type': 'multipart/form-data' },
                 })
                 .then((res) => {

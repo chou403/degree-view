@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     Account: typeof import('./src/components/login/account.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    Login_content: typeof import('./src/components/login/login_content.vue')['default']
     QrCode: typeof import('./src/components/login/qrCode.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

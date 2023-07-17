@@ -1,40 +1,32 @@
 <template>
-    <van-image
-    width="100"
-    height="100"
-    src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
-    />
-
+    <div class="flex-row-center-center">
+        <van-image width="100" height="100" :src="srcInfo" />
+        <van-button round block type="primary" @click="getQrCode">
+            刷新
+        </van-button>
+    </div>
 </template>
 
 <script setup lang="ts">
+import login from '@/apis/modules/login';
 
-import { webSocketStore } from "@/stores/webSocket";
-import { createWebSocket } from "@/utils/socket";
+var srcInfo = ref()
 
-import { showToast } from 'vant';
+const getQrCode = async () => {
+    let result = await login.getLoginQr()
+    let blob = new Blob([result]);
 
-const webSocket = webSocketStore();
+    const imgUrl = window.URL.createObjectURL(blob)
+    srcInfo.value = imgUrl
+}
 
-const mes = ref();
-const global_callback = (msg: any) => {
-    console.log("websocket的回调函数收到服务器信息：" + JSON.stringify(msg));
-    // console.log("收到服务器信息：" + msg);
-    mes.value = JSON.parse(JSON.stringify(msg));
-    webSocket.addMsg(mes);
-    showToast({
-        // title: "您有一条新的消息y",
-        message: mes.value.key,
-        position: "bottom",
-    });
-};
+getQrCode()
 
-createWebSocket(global_callback);
+defineExpose({
+    getQrCode
+})
 
 </script>
 
 <style scoped>
-.login_module {
-    @apply bg-light-50 flex items-center justify-center flex-col
-}
 </style>

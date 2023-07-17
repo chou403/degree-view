@@ -1,26 +1,29 @@
 <template>
     <h1>home</h1>
-    <h2>counter: {{ counter }}</h2>
-    <h2>content: {{ result.data }}</h2>
 </template>
 
 <script setup lang="ts">
-import api from '@/apis'
-import { useStore } from '@/stores'
-import { storeToRefs } from 'pinia'
+import { webSocketStore } from "@/stores/webSocket";
+import { createWebSocket } from "@/utils/socket";
 
-const store = useStore()
-const { counter } = storeToRefs(store.counter)
+import { showToast } from 'vant';
 
-let result: any = {}
+const webSocket = webSocketStore();
 
-const test = async () => {
-    let params = {}
-    result = await api.common.testApi(params)
-    console.log(result.data);
-}
+const mes = ref();
+const global_callback = (msg: any) => {
+    console.log("websocket的回调函数收到服务器信息：" + JSON.stringify(msg));
+    // console.log("收到服务器信息：" + msg);
+    mes.value = JSON.parse(JSON.stringify(msg));
+    webSocket.addMsg(mes);
+    showToast({
+        // title: "您有一条新的消息y",
+        message: mes.value.key,
+        position: "bottom",
+    });
+};
 
-test()
+createWebSocket(global_callback);
 
 </script>
 

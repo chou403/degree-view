@@ -1,6 +1,7 @@
 import './style.css'
 import 'lib-flexible'
 import 'virtual:windi.css'
+import "vant/lib/index.css";
 
 import { createApp } from 'vue'
 import App from './App.vue'

@@ -60,10 +60,16 @@ button:focus-visible {
 }
 
 #app {
+  /* background-image: url('src/assets/img/one_price.jpg'); */
+  /* width: -webkit-fill-available;
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
+  text-align: center; */
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+
 }
 
 @media (prefers-color-scheme: light) {
@@ -77,4 +83,26 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.flex-row-center-center {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.flex-row-center-center,
+.flex-row-center-start {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
 }
