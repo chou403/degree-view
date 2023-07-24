@@ -1,29 +1,31 @@
 <template>
-    <h1>home</h1>
+    <content></content>
 </template>
 
 <script setup lang="ts">
-import { webSocketStore } from "@/stores/webSocket";
-import { createWebSocket } from "@/utils/socket";
+import content from "./content.vue";
 
-import { showToast } from 'vant';
+// import { webSocketStore } from "@/stores/webSocket";
+// import { createWebSocket } from "@/utils/socket";
 
-const webSocket = webSocketStore();
+// import { showToast } from 'vant';
 
-const mes = ref();
-const global_callback = (msg: any) => {
-    console.log("websocket的回调函数收到服务器信息：" + JSON.stringify(msg));
-    // console.log("收到服务器信息：" + msg);
-    mes.value = JSON.parse(JSON.stringify(msg));
-    webSocket.addMsg(mes);
-    showToast({
-        // title: "您有一条新的消息y",
-        message: mes.value.key,
-        position: "bottom",
-    });
-};
+// const webSocket = webSocketStore();
 
-createWebSocket(global_callback);
+// const mes = ref();
+// const global_callback = (msg: any) => {
+//     console.log("websocket的回调函数收到服务器信息：" + JSON.stringify(msg));
+//     // console.log("收到服务器信息：" + msg);
+//     mes.value = JSON.parse(JSON.stringify(msg));
+//     webSocket.addMsg(mes);
+//     showToast({
+//         // title: "您有一条新的消息y",
+//         message: mes.value.key,
+//         position: "bottom",
+//     });
+// };
+
+// createWebSocket(global_callback);
 
 </script>
 
