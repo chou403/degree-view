@@ -68,6 +68,8 @@ service.interceptors.response.use(
     },
     (error: any) => {
         const { response } = error;
+        console.log(response);
+        
         if (response) {
             switch (response.status) {
                 // 401: 未登录                

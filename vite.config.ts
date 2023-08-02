@@ -1,19 +1,34 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import Components from 'unplugin-vue-components/vite';
 import { VantResolver } from 'unplugin-vue-components/resolvers';
 import postCssPxToRem from 'postcss-pxtorem'
 import WindiCSS from 'vite-plugin-windicss'
 import { viteMockServe } from 'vite-plugin-mock'
 import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite';
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import {
+  createStyleImportPlugin,
+  ElementPlusResolve,
+} from "vite-plugin-style-import";
 
 export default defineConfig({
   base: './', // 这里更改打包相对绝对路径
   plugins: [
-    vue(),
+    vue({
+      include: [/\.vue$/, /\.md$/],
+      // 可以使用$ref
+      reactivityTransform: true,
+    }),
     WindiCSS(),
+    // 解决message和notification引入不生效问题
+    createStyleImportPlugin({
+      resolves: [ElementPlusResolve()],
+    }),
     Components({
-      resolvers: [VantResolver()],
+      resolvers: [VantResolver(),ElementPlusResolver()],
+      include: [/\.vue$/, /\.tsx$/, /\.vue\?vue/, /\.md$/],
+      dts: "src/components.d.ts",
     }),
     // mock服务
     viteMockServe({
@@ -28,6 +43,7 @@ export default defineConfig({
         /\.vue$/, /\.vue\?vue/, // .vue
         /\.md$/, // .md
       ],
+      vueTemplate: true,
       // 全局引入插件
       imports: [
         "vue",
@@ -63,7 +79,7 @@ export default defineConfig({
       },
       // 解析器
       resolvers: [
-        /* ... */
+        ElementPlusResolver(),
       ],
       // 声明文件生成位置和文件名称 路径下自动生成文件夹存放全局指令
       dts: './auto-import.d.ts'

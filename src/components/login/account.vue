@@ -28,6 +28,8 @@ const onSubmit = async () => {
     console.log(dataInfo.value);
     
     let result = await login.commonLogin(dataInfo.value)
+    console.log(result);
+    
     if(result.code !== 200) {
         showToast(result.message)
     } else {
